@@ -1,0 +1,56 @@
+---
+- include_tasks: "{{ ansible_os_family }}.yml"
+
+- name: Ensure vsftpd is running and starts at boot
+  service:
+    name: vsftpd
+    state: started
+    enabled: true
+
+- name: Set vsftpd config values
+  ini_file:
+    backup: true
+    create: false
+    no_extra_spaces: true
+    dest: "{{ vsftpd_conf_path }}"
+    section: null
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    state: present
+  notify: restart vsftpd
+  with_items: "{{ vsftpd_ini_config }}"
+
+- name: Create FTP users
+  user:
+    create_home: yes
+    generate_ssh_key: no
+    name: "{{ item.username }}"
+    password: "{{ item.password | password_hash('sha512') }}"
+    state: present
+    update_password: "{{ item.update_password | default('always') }}"
+  with_items: "{{ vsftpd_users }}"
+
+- name: Create non-writeable FTP root in user home dirs; this is required for CHROOT safety
+  file:
+    dest: /home/{{ item.username }}/ftp
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: '0555'
+  with_items: "{{ vsftpd_users }}"
+
+- name: Create user-writeable directory each user's FTP root
+  file:
+    dest: /home/{{ item.username }}/ftp/files
+    state: directory
+    owner: "{{ item.username }}"
+    group: "{{ item.username }}"
+    mode: '2750'
+  with_items: "{{ vsftpd_users }}"
+
+- name: Populate vsftpd.userlist file
+  template:
+    src: "{{ role_path }}/templates/vsftpd.userlist.j2"
+    dest: /etc/vsftpd.userlist
+    backup: false
+  notify: restart vsftpd

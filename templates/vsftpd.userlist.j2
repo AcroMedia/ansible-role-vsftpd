@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for item in vsftpd_users %}
+{{ item.username }}
+{% endfor %}

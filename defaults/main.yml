@@ -1,0 +1,91 @@
+---
+vsftpd_ini_config_default:
+
+# Vsftp is too quiet by default ...
+    - option: 'xferlog_enable'
+      value: 'YES'
+    - option: 'xferlog_file'
+      value: '/var/log/xferlog'
+    - option: 'syslog_enable'
+      value: 'NO'
+    - option: 'vsftpd_log_file'
+      value: '/var/log/vsftpd.log'
+
+# Deny all anonymous activity ...
+    - option: 'allow_anon_ssl'
+      value: 'NO'
+    - option: 'anon_mkdir_write_enable'
+      value: 'NO'
+    - option: 'anon_other_write_enable'
+      value: 'NO'
+    - option: 'anon_upload_enable'
+      value: 'NO'
+    - option: 'anonymous_enable'
+      value: 'NO'
+
+# Don't expose vsftpd version...
+    - option: ftpd_banner
+      value: OHAI
+
+# Without this, all write access is disabled...
+    - option: write_enable
+      value: YES
+
+# All users are CHROOT'ed ...
+    - option: chroot_local_user
+      value: 'YES'
+    - option: local_root
+      value: '/home/$USER/ftp'
+    - option: user_sub_token
+      value: '$USER'
+
+# We only permit explicitly defined users, because the CHROOT part gets complicated and requires extra setup.
+    - option: userlist_enable
+      value: 'YES'
+    - option: userlist_file
+      value: /etc/vsftpd.userlist
+    - option: userlist_deny
+      value: 'NO'       # userlist_deny=NO means that *ONLY* the users specified in userlist_file will be allowed FTP access.
+
+## SSL Config
+    - option: 'ssl_enable'
+      value: 'YES'
+    - option: 'force_local_data_ssl'
+      value: 'YES'
+    - option: 'force_local_logins_ssl'
+      value: 'YES'
+    - option: 'ssl_tlsv1'
+      value: 'YES'
+    - option: 'ssl_sslv2'
+      value: 'NO'
+    - option: 'ssl_sslv3'
+      value: 'NO'
+    - option: 'rsa_cert_file'
+      value: '{{ vsftpd_rsa_cert_file }}'
+    - option: 'rsa_private_key_file'
+      value: '{{ vsftpd_rsa_private_key_file }}'
+
+# Make vsftpd work from behind a firewall
+    - option: 'pasv_max_port'
+      value: '{{ vsftpd_pasv_max_port }}'
+    - option: 'pasv_min_port'
+      value: '{{ vsftpd_pasv_min_port }}'
+    - option: 'log_ftp_protocol'
+      value: 'YES'
+    - option: 'ssl_ciphers'
+      value: 'HIGH'
+    - option: 'pasv_address'
+      value: '{{ vsftpd_pasv_address }}'
+
+vsftpd_ini_config_extras: []
+
+vsftpd_ini_config: "{{ vsftpd_ini_config_default + vsftpd_ini_config_extras }}"
+
+
+vsftpd_users: []
+#   - username: foo
+#     password: secret1
+#     update_password: always
+#   - username: bar
+#     password: secret2
+#     update_password: on_create
