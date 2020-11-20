@@ -1,0 +1,15 @@
+---
+- name: Verify user creation
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Check if user is created
+      stat:
+        path: /home/ftptester
+      register: home_directory
+
+    - name: Check if ftp user directory is created
+      stat:
+        path: /home/ftptester/ftp
+      register: ftp_directory
