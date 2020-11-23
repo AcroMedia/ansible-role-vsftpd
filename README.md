@@ -1,5 +1,7 @@
 # acromedia.ansible-role-vsftpd
 
+![.github/workflows/molecule.yml](https://github.com/AcroMedia/ansible-role-vsftpd/workflows/.github/workflows/molecule.yml/badge.svg)
+
 ## Requirements
 
 OS:
