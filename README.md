@@ -8,6 +8,7 @@ OS:
 - Ubuntu 16.04+ or RedHat/CentOS 6+
 
 Other:
+- Your playbook must gather facts
 - Server runs from behind a firewall
 - FTP over TLS must be used. No clear text connections allowed.
 - No anonymous activity allowed
