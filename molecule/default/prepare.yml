@@ -1,0 +1,23 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update apt cache.
+      apt: 
+        update_cache: true 
+      when: ansible_os_family == 'Debian'
+
+    - name: Update yum cache.
+      yum: 
+        update_cache: true 
+      when: ansible_distribution == 'CentOS'
+        and (ansible_distribution_major_version | int) < 8
+    
+    - name: Update dnf cache
+      dnf:
+        update_cache: true
+      when: ansible_distribution == 'CentOS'
+        and (ansible_distribution_major_version | int) >= 8

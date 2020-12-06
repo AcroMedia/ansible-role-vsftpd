@@ -2,22 +2,6 @@
 - name: Converge
   hosts: all
   become: true
-  vars:
-    vsftpd_pasv_min_port: '11000'
-    vsftpd_pasv_max_port: '11999'
-    vsftpd_pasv_address: 8.8.8.8   #  The public IP of your server.
-    vsftpd_rsa_cert_file: ./certs/fullchain.pem
-    vsftpd_rsa_private_key_file: ./certs/key
-    vsftpd_ini_config_extras: []  #  For anything additional config not already handled by the role. See defaults.yml.
-    vsftpd_users:
-      - username: ftptester
-        password: password
-        update_password: always
-
-  pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=true cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-
+  gather_facts: true
   roles:
     - role: ansible-role-vsftpd
