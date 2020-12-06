@@ -1,9 +1,4 @@
 ---
-- name: Set facts (Red Hat-ish)
-  set_fact:
-    vsftpd_conf_path: /etc/vsftpd/vsftpd.conf
-    priviledged_read_access_group: wheel
-
 - name: Install vsftpd on EL >= 6; EL 5 is too old for ansible Yum operations
   yum:
     name: vsftpd

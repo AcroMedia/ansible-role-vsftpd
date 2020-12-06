@@ -1,5 +1,9 @@
 ---
-- include_tasks: "{{ ansible_os_family }}.yml"
+- name: Include os-specific variables
+  include_vars: vars/{{ ansible_os_family }}.yml
+
+- name: Include os-specific tasks
+  include_tasks: "{{ ansible_os_family }}.yml"
 
 - name: Ensure vsftpd is running and starts at boot
   service:
