@@ -39,7 +39,7 @@
     dest: /home/{{ item.username }}/ftp
     state: directory
     owner: nobody
-    group: nogroup
+    group: "{{ vsftpd_nobody_groupname }}"
     mode: '0555'
   with_items: "{{ vsftpd_users }}"
 
