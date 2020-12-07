@@ -1,0 +1,38 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  pre_tasks:
+
+    - name: Create a home for TLS certs
+      file:
+        state: directory
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: "{{ (ansible_os_family == 'RedHat') | ternary('wheel','adm') }}"
+      with_items:
+        - dest: /usr/local/ssl
+          mode: "0755"
+        - dest: /usr/local/ssl/certs
+          mode: "0755"
+        - dest: /usr/local/ssl/private
+          mode: "0750"
+
+    - name: Upload fake TLS cert and key files for VSFTPD to use
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: "{{ (ansible_os_family == 'RedHat') | ternary('wheel','adm') }}"
+      with_items:
+        - src: templates/snake-oil.key.j2
+          dest: "{{ vsftpd_rsa_private_key_file }}"
+          mode: '0640'
+        - src: templates/snake-oil.pem.j2
+          dest: "{{ vsftpd_rsa_cert_file }}"
+          mode: '0644'
+  roles:
+    - role: ansible-role-vsftpd

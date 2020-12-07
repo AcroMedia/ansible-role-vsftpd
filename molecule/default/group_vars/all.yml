@@ -1,0 +1,11 @@
+---
+vsftpd_pasv_min_port: '11000'
+vsftpd_pasv_max_port: '11999'
+vsftpd_pasv_address: 8.8.8.8   #  The public IP of your server.
+vsftpd_rsa_cert_file: /usr/local/ssl/certs/snake-oil.pem
+vsftpd_rsa_private_key_file: /usr/local/ssl/private/snake-oil.key
+vsftpd_ini_config_extras: []  #  For anything additional config not already handled by the role. See defaults.yml.
+vsftpd_users:
+ - username: ftptester
+   password: password
+   update_password: on_create # In real playbooks, you should set ths as "always". It's only set otherwise here to pass idempotence tests.

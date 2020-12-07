@@ -1,0 +1,33 @@
+---
+- name: Verify user creation
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Stat home dir
+      stat:
+        path: /home/ftptester
+      register: home_directory
+
+    - name: Debug home_directory
+      debug:
+        var: home_directory
+
+    - name: Stat ftp dir
+      stat:
+        path: /home/ftptester/ftp
+      register: ftp_directory
+
+    - name: Debug ftp_directory
+      debug:
+        var: ftp_directory
+
+    - name: Ensure dirs look the way they should
+      assert:
+        that:
+          - ftp_directory.stat.exists
+          - home_directory.stat.exists
+
+    - name: Ensure vsftpd is listening
+      shell: >
+        ss -tp state listening sport = :21 | grep 'ftp'

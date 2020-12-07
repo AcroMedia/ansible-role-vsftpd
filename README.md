@@ -1,12 +1,12 @@
 # acromedia.ansible-role-vsftpd
 
+![.github/workflows/molecule.yml](https://github.com/AcroMedia/ansible-role-vsftpd/workflows/.github/workflows/molecule.yml/badge.svg)
+
 ## Requirements
 
-OS:
-- Ubuntu 16.04+ or RedHat/CentOS 6+
-
-Other:
-- Server runs from behind a firewall
+- OS: Ubuntu 16.04+ or RedHat/CentOS 6+
+- Your playbook must gather facts
+- Server is expected to run from behind a firewall
 - FTP over TLS must be used. No clear text connections allowed.
 - No anonymous activity allowed
 - Only explicitly defined users are allowed
@@ -23,8 +23,8 @@ Other:
     vsftpd_pasv_min_port: '11000'
     vsftpd_pasv_max_port: '11999'
     vsftpd_pasv_address: 8.8.8.8   #  The public IP of your server.
-    vsftpd_rsa_cert_file: /path/to/your/fullchain.pem
-    vsftpd_rsa_private_key_file: /path/to/your/privkey.pem
+    vsftpd_rsa_cert_file: /path/on/server/tofullchain.pem  #  This file must already exist on your server
+    vsftpd_rsa_private_key_file: /path/on/server/to/privkey.pem  #  This file must already exist on your server
     vsftpd_ini_config_extras: []  #  For anything additional config not already handled by the role. See defaults.yml.
     vsftpd_users:
      - username: ftptester

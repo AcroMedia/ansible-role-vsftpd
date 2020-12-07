@@ -1,0 +1,5 @@
+---
+vsftpd_conf_path: /etc/vsftpd/vsftpd.conf
+priviledged_read_access_group: wheel
+vsftpd_nobody_groupname: nobody
+
