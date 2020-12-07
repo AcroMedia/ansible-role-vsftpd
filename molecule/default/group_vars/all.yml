@@ -8,4 +8,4 @@ vsftpd_ini_config_extras: []  #  For anything additional config not already hand
 vsftpd_users:
  - username: ftptester
    password: password
-   update_password: always
+   update_password: false # In real playbooks, you should set ths as "always". It's only set false here to pass idempotence tests.
