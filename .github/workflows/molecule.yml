@@ -1,46 +1,69 @@
 ---
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
+name: Molecule Tests
+
+'on':
+  # Automatically test once per month
+  schedule:
+    - cron: "6 6 6 * *"
+
+  # Only test pushes if they were directly to main branch
   push:
     branches:
       - master
+
+  # Test all pull request actions.
   pull_request:
-    branches:
-      - master
+
+# Auto-cancel runs from previous pushes in the same branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v4
         with:
-          path: "${{ github.repository }}"
-      - name: molecule
-        uses: robertdebock/molecule-action@2.6.3
-        with:
-          command: lint
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install yamllint
+
+      - name: Lint code
+        run: yamllint .
+
   test:
-    needs:
-      - lint
+    name: Molecule
     runs-on: ubuntu-latest
     strategy:
       matrix:
         image:
+          - geerlingguy/docker-ubuntu2204-ansible:latest
           - geerlingguy/docker-ubuntu2004-ansible:latest
           - geerlingguy/docker-ubuntu1804-ansible:latest
-          - geerlingguy/docker-ubuntu1604-ansible:latest
-          - geerlingguy/docker-centos8-ansible:latest
-          - geerlingguy/docker-centos7-ansible:latest
+          - geerlingguy/docker-rockylinux9-ansible:latest
+          - geerlingguy/docker-rockylinux8-ansible:latest
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v4
         with:
-          path: "${{ github.repository }}"
-      - name: molecule
-        uses: robertdebock/molecule-action@2.6.3
-        with:
-          image: "${{ matrix.image }}"
-          options: parallel
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule molecule-plugins[docker] docker
+
+      - name: Run Molecule tests.
+        run: molecule test
         env:
           MOLECULE_DOCKER_IMAGE: "${{ matrix.image }}"
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'

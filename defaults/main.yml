@@ -29,7 +29,7 @@ vsftpd_ini_config_default:
 
 # Without this, all write access is disabled...
     - option: write_enable
-      value: YES
+      value: 'YES'
 
 # All users are CHROOT'ed ...
     - option: chroot_local_user

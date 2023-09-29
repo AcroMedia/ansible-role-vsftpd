@@ -2,4 +2,3 @@
 vsftpd_conf_path: /etc/vsftpd.conf
 priviledged_read_access_group: adm
 vsftpd_nobody_groupname: nogroup
-
