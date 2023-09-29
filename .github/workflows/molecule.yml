@@ -55,28 +55,3 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
-
-#  test:
-#    needs:
-#      - lint
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        image:
-#          - geerlingguy/docker-ubuntu2204-ansible:latest
-#          - geerlingguy/docker-ubuntu2004-ansible:latest
-#          - geerlingguy/docker-ubuntu1804-ansible:latest
-#          - geerlingguy/docker-rockylinux9-ansible:latest
-#          - geerlingguy/docker-rockylinux8-ansible:latest
-#    steps:
-#      - name: checkout
-#        uses: actions/checkout@v2
-#        with:
-#          path: "${{ github.repository }}"
-#      - name: molecule
-#        uses: robertdebock/molecule-action@2.6.3
-#        with:
-#          image: "${{ matrix.image }}"
-#          options: parallel
-#        env:
-#          MOLECULE_DOCKER_IMAGE: "${{ matrix.image }}"
