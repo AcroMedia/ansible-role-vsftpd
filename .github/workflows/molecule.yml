@@ -1,4 +1,6 @@
 ---
+name: Molecule Tests
+
 'on':
   # Automatically test once per month
   schedule:
