@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: "acromedia.vsftpd"
+    working-directory: "${{ github.repository }}"
 
 jobs:
   lint:
@@ -18,7 +18,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          path: "acromedia.vsftpd"
+          path: "${{ github.repository }}"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -47,7 +47,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'acromedia.vsftpd'
+          path: "${{ github.repository }}"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
