@@ -26,8 +26,8 @@
 
 - name: Create FTP users
   user:
-    create_home: yes
-    generate_ssh_key: no
+    create_home: true
+    generate_ssh_key: false
     name: "{{ item.username }}"
     password: "{{ item.password | password_hash('sha512') }}"
     state: present

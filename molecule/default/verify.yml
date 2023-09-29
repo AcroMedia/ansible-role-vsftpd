@@ -1,7 +1,7 @@
 ---
 - name: Verify user creation
   hosts: all
-  become: yes
+  become: true
 
   tasks:
     - name: Stat home dir
