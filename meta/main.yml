@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Dale Anderson
+  description: Install and configure VSFTPD service
+  company: Acro Media Inc. https://www.acromedia.com/
+  license: GPLv3
+  min_ansible_version: 2.9
+  namespace: acromedia
+  role_name: vsftpd
+  platforms:
+    - name: Ubuntu
+      versions: []  #  @TODO: Define supported versions
+    - name: EL
+      versions: []  #  @TODO: Define supported versions
+dependencies: []
