@@ -62,6 +62,6 @@ jobs:
       - name: Run Molecule tests.
         run: molecule test
         env:
+          MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
