@@ -1,6 +1,4 @@
 ---
-run-name: "${{ github.event.head_commit.message }}"
-
 'on':
   pull_request:
   push:
