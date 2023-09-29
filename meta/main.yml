@@ -9,7 +9,12 @@ galaxy_info:
   role_name: vsftpd
   platforms:
     - name: Ubuntu
-      versions: []  #  @TODO: Define supported versions
+      versions:
+        - jammy
+        - focal
+        - bionic
     - name: EL
-      versions: []  #  @TODO: Define supported versions
+      versions:
+        - 9
+        - 8
 dependencies: []
