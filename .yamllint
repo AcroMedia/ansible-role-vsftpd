@@ -1,0 +1,13 @@
+---
+# Based on ansible-lint config
+extends: default
+
+rules:
+  comments: disable
+  comments-indentation: disable
+  empty-lines:
+    max: 3
+    level: error
+  line-length: disable
+  new-lines:
+    type: unix
