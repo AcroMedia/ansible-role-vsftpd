@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: "6 6 6 * *"   # Test once / month
+  schedule: # Automatically test once per month
+    - cron: "6 6 6 * *"
+  concurrency:  # Auto-cancel runs from previous pushes in the same branch.
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
 
 jobs:
   lint:
