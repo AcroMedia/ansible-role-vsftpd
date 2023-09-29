@@ -41,11 +41,11 @@ jobs:
     strategy:
       matrix:
         image:
-          - geerlingguy/docker-rockylinux9-ansible
-          - geerlingguy/docker-rockylinux8-ansible
-          - geerlingguy/docker-ubuntu2204-ansible
-          - geerlingguy/docker-ubuntu2004-ansible
-          - geerlingguy/docker-ubuntu1804-ansible
+          - geerlingguy/docker-ubuntu2204-ansible:latest
+          - geerlingguy/docker-ubuntu2004-ansible:latest
+          - geerlingguy/docker-ubuntu1804-ansible:latest
+          - geerlingguy/docker-rockylinux9-ansible:latest
+          - geerlingguy/docker-rockylinux8-ansible:latest
 
     steps:
       - name: Check out the codebase.
