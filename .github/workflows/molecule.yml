@@ -1,11 +1,16 @@
 ---
 'on':
-  pull_request:
+  # Automatically test once per month
+  schedule:
+    - cron: "6 6 6 * *"
+
+  # Only test pushes if they were directly to main branch
   push:
     branches:
       - master
-  schedule: # Automatically test once per month
-    - cron: "6 6 6 * *"
+
+  # Test all pull request actions.
+  pull_request:
 
 concurrency:  # Auto-cancel runs from previous pushes in the same branch.
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -29,7 +34,7 @@ jobs:
       - name: Lint code
         run: yamllint .
 
-  molecule:
+  test:
     name: Molecule
     runs-on: ubuntu-latest
     strategy:
