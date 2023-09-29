@@ -12,7 +12,8 @@
   # Test all pull request actions.
   pull_request:
 
-concurrency:  # Auto-cancel runs from previous pushes in the same branch.
+# Auto-cancel runs from previous pushes in the same branch.
+concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
