@@ -18,5 +18,8 @@ platforms:
       - /tmp
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      remote_tmp: /tmp
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
